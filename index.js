@@ -26,6 +26,17 @@ async function run() {
     // Connect the client to the server	(optional starting in v4.7)
     await client.connect();
 
+    const productCollection = client.db('automovaDB').collection('product');
+
+    
+
+    app.post('/products', async (req, res) => {
+      const newProduct = req.body;
+      console.log(newProduct);
+      const result = await productCollection.insertOne(newProduct);
+      res.send(result);
+    })
+
 
 
 
@@ -40,10 +51,10 @@ async function run() {
 run().catch(console.dir);
 
 
-app.get('/',(req, res) => {
-    res.send('server is running')
+app.get('/', (req, res) => {
+  res.send('server is running')
 })
 
 app.listen(port, () => {
-    console.log(`server is running on port: ${port}`);
+  console.log(`server is running on port: ${port}`);
 })
