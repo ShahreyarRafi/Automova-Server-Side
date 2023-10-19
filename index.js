@@ -21,6 +21,51 @@ const client = new MongoClient(uri, {
   }
 });
 
+
+// const cartItemCollection = client.db('automovaCartDB').collection('cart')
+
+//     app.get('/cartItems', async (req, res) => {
+//       const cursor = cartItemCollection.find();
+//       const result = await cursor.toArray();
+//       res.send(result);
+//     })
+
+//     app.post('/cartItems', async (req, res) => {
+//       const newCartItem = req.body;
+//       console.log(newCartItem);
+//       const result = await cartItemCollection.insertOne(newCartItem);
+//       console.log(result);
+//       res.send(result);
+//     })
+
+//     app.get('/cartItems/:id', async (req, res) => {
+//       const id = req.params.id;
+//       const query = { _id: new ObjectId(id) }
+//       const result = await cartItemCollection.findOne(query);
+//       res.send(result);
+//     })
+
+//     app.delete('/cartItems/:id', async (req, res) => {
+//       const id = req.params.id;
+//       const query = { _id: new ObjectId(id) }
+//       const result = await cartItemCollection.deleteOne(query);
+//       res.send(result);
+//     })
+
+
+// fetch('http://localhost:5000/cart-items',{
+//     method: 'POST',
+//     headers: {
+//         'content-type': 'application/json'
+//     },
+//     body: JSON.stringify(product)
+// })
+// .then(res => res.json())
+// .then(data => {
+//     console.log(data);
+// })
+
+
 async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
@@ -28,6 +73,44 @@ async function run() {
 
     const productCollection = client.db('automovaDB').collection('product');
 
+    const cartItemCollection = client.db('automovaDB').collection('cart')
+
+    // for cart
+
+    app.get('/cartItems', async (req, res) => {
+      const cursor = cartItemCollection.find();
+      const result = await cursor.toArray();
+      res.send(result);
+    })
+
+    app.post('/cartItems', async (req, res) => {
+      const newCartItem = req.body;
+      console.log(newCartItem);
+      const result = await cartItemCollection.insertOne(newCartItem);
+      console.log(result);
+      res.send(result);
+    })
+
+    app.get('/cartItems/:id', async (req, res) => {
+      const id = req.params.id;
+      console.log(id);
+      const query = { _id: new ObjectId(id) };
+      console.log(query);
+      const result = await cartItemCollection.findOne(query);
+      console.log(result);
+      res.send(result);
+    });
+
+
+    app.delete('/cartItems/:id', async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) }
+      const result = await cartItemCollection.deleteOne(query);
+      res.send(result);
+    })
+
+    // for products
+    
     app.get('/products', async (req, res) => {
       const cursor = productCollection.find();
       const result = await cursor.toArray();
