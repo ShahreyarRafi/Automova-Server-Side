@@ -145,7 +145,8 @@ async function run() {
           price: updatedProducts.price,
           description: updatedProducts.description,
           rating: updatedProducts.rating,
-          photo: updatedProducts.photo
+          photo: updatedProducts.photo,
+          featured: updatedProducts.featured
         }
       }
 
