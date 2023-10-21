@@ -22,54 +22,11 @@ const client = new MongoClient(uri, {
 });
 
 
-// const cartItemCollection = client.db('automovaCartDB').collection('cart')
-
-//     app.get('/cartItems', async (req, res) => {
-//       const cursor = cartItemCollection.find();
-//       const result = await cursor.toArray();
-//       res.send(result);
-//     })
-
-//     app.post('/cartItems', async (req, res) => {
-//       const newCartItem = req.body;
-//       console.log(newCartItem);
-//       const result = await cartItemCollection.insertOne(newCartItem);
-//       console.log(result);
-//       res.send(result);
-//     })
-
-//     app.get('/cartItems/:id', async (req, res) => {
-//       const id = req.params.id;
-//       const query = { _id: new ObjectId(id) }
-//       const result = await cartItemCollection.findOne(query);
-//       res.send(result);
-//     })
-
-//     app.delete('/cartItems/:id', async (req, res) => {
-//       const id = req.params.id;
-//       const query = { _id: new ObjectId(id) }
-//       const result = await cartItemCollection.deleteOne(query);
-//       res.send(result);
-//     })
-
-
-// fetch('http://localhost:5000/cart-items',{
-//     method: 'POST',
-//     headers: {
-//         'content-type': 'application/json'
-//     },
-//     body: JSON.stringify(product)
-// })
-// .then(res => res.json())
-// .then(data => {
-//     console.log(data);
-// })
-
 
 async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
-    await client.connect();
+
 
     const productCollection = client.db('automovaDB').collection('product');
 
@@ -110,7 +67,7 @@ async function run() {
     })
 
     // for products
-    
+
     app.get('/products', async (req, res) => {
       const cursor = productCollection.find();
       const result = await cursor.toArray();
@@ -146,11 +103,19 @@ async function run() {
           description: updatedProducts.description,
           rating: updatedProducts.rating,
           photo: updatedProducts.photo,
-          featured: updatedProducts.featured
+          featured: updatedProducts.featured,
+          engine_type: updatedProducts.engine_type,
+          transmission: updatedProducts.transmission,
+          fuel_type: updatedProducts.fuel_type,
+          drive_system: updatedProducts.drive_system,
+          infotainment: updatedProducts.infotainment,
+          seats: updatedProducts.seats
         }
       }
+      console.log(products);
 
       const result = await productCollection.updateOne(filter, products, options);
+      
       res.send(result);
     })
 
